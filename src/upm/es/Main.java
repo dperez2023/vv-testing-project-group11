@@ -1,14 +1,22 @@
 package upm.es;
 
-import java.util.Scanner;
-public class MakeItSafe {
+import java.util.HashMap;
+import java.util.Map;
+
+class MakeItSafe {
+
+    public static void main(String[] args){
+        System.out.println("Hello, World!");
+        help();
+    }
+
     private Map<String, Map<String, String>> accounts; // Map<Website, Map<Login, Password>>
 
     public MakeItSafe() {
         accounts = new HashMap<>();
     }
-    
-     public void help() {
+
+    public static void help() {
         System.out.println("Available commands:");
         System.out.println("help - Display available commands and password security rules");
         System.out.println("display <Optional ARGUMENT1> <Optional ARGUMENT2> - Display accounts");
@@ -53,13 +61,11 @@ public class MakeItSafe {
         }
     }
 
-    
     public void add(String website, String login, String password) {
         // Add new account with website, login, password
         // Validate password and check for duplicates
         // Implement the add functionality here
     }
-
     
     public void delete(String website, String login) {
         if (website == null && login == null) {
@@ -88,20 +94,15 @@ public class MakeItSafe {
                 System.out.println("Error: No accounts found for this website.");
             }
         }
+    }
 
-    
     public void update(String website, String login, String newPassword) {
         // Update password for an existing account
         // Implement the update functionality here
     }
 
-    
     public void count(String website) {
         // Count total accounts or accounts for a specific website
         // Implement the count functionality here
-    }
-
-    public static void main(String[] args) {
-       dummy(); //TODO
     }
 }
