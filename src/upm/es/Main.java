@@ -1,5 +1,6 @@
 package upm.es;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,13 +9,14 @@ class MakeItSafe {
     public static void main(String[] args){
         System.out.println("Hello, World!");
         help();
+        //TODO: We need to map commands from the file to each of the functions
+        add("www.google.com","username","password");
+        display("www.google.com", "username");
+        delete("www.google.com", "username");
+        display("www.google.com", "username");
     }
 
-    private Map<String, Map<String, String>> accounts; // Map<Website, Map<Login, Password>>
-
-    public MakeItSafe() {
-        accounts = new HashMap<>();
-    }
+    private static Map<String, Map<String, String>> accounts = Collections.singletonMap("", Collections.singletonMap("",""));
 
     public static void help() {
         System.out.println("Available commands:");
@@ -30,7 +32,7 @@ class MakeItSafe {
         System.out.println("Password levels: Really Weak, Weak, Medium, Strong");
     }
 
-    public void display(String website, String login) {
+    public static void display(String website, String login) {
         if (website == null && login == null) {
             // Display all websites
             for (String web : accounts.keySet()) {
@@ -61,13 +63,16 @@ class MakeItSafe {
         }
     }
 
-    public void add(String website, String login, String password) {
-        // Add new account with website, login, password
-        // Validate password and check for duplicates
-        // Implement the add functionality here
+    public static void add(String website, String login, String password) {
+        //TODO: If website doesn't exists, add it to the map
+        //TODO: If website exists, check if the login exists and if not, check if the password exists within the logins of that website, if it doesn't add
+        if (accounts != null) {
+            Map<String, String> loginMap = Collections.singletonMap(login, password);
+            accounts = Collections.singletonMap(website, loginMap);//.put(website, loginMap);
+        }
     }
     
-    public void delete(String website, String login) {
+    public static void delete(String website, String login) {
         if (website == null && login == null) {
             // Delete all accounts
             accounts.clear();
@@ -96,12 +101,12 @@ class MakeItSafe {
         }
     }
 
-    public void update(String website, String login, String newPassword) {
+    public static void update(String website, String login, String newPassword) {
         // Update password for an existing account
         // Implement the update functionality here
     }
 
-    public void count(String website) {
+    public static void count(String website) {
         // Count total accounts or accounts for a specific website
         // Implement the count functionality here
     }
