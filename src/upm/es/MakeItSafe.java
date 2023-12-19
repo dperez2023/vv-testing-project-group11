@@ -186,9 +186,9 @@ public class MakeItSafe {
             String action = parts[0].toLowerCase();
 
             switch (action) {
-                //case "help":
-                  //  safeSystem.help();
-                    //break;
+                case "help":
+                    safeSystem.help();
+                    break;
                 case "display":
                     if (parts.length == 1) {
                         safeSystem.display(null, null);
