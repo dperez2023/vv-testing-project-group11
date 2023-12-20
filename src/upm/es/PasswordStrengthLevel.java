@@ -25,6 +25,7 @@ public enum PasswordStrengthLevel {
     }
 
     public String getStringValue() {
+        //TODO: Might require fixing, unsure if it gets the actual names
         return this.toString();
     }
 }

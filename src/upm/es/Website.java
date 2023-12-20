@@ -73,7 +73,7 @@ public class Website {
         }
     }
 
-    public Boolean removeLogin(Login login) {
+    public Boolean removeUsername(Login login) {
         if(getLogin(login) != null) {
             this.logins.remove(login);
             String message = String.format("Remove: Username '%s' has been removed.", login.getUsername());
