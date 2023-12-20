@@ -6,9 +6,9 @@ import java.util.List;
 
 class MakeItSafe {
     private static Account accounts = new Account();
-    private List<Command> commands = new ArrayList<>();
+    private static List<Command> commands = new ArrayList<>();
 
-    public void main(String[] args){
+    public static void main(String[] args){
         getCommandsFromFile(""); //TODO: Get the file and split accordingly
 
         for (Command command : commands) {
@@ -16,7 +16,7 @@ class MakeItSafe {
         }
     }
 
-    private void executeCommand(Command command) {
+    private static void executeCommand(Command command) {
         List<String> arguments = command.getArguments();
 
         if(arguments.size() <= command.getType().getArgumentsSize()) {
@@ -45,7 +45,7 @@ class MakeItSafe {
         }
     }
 
-    private void getCommandsFromFile(String file) {
+    private static void getCommandsFromFile(String file) {
         //Split file in lines
         //For each line separate text by using spaces
         //First slice should be one of the CommandType strings, if not, ignore the rest
@@ -238,5 +238,7 @@ class MakeItSafe {
             System.out.println(message);
             return (login.getUsername() != "" && login.getPassword() != "");
         }
+
+        return true;
     }
 }
