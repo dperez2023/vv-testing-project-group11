@@ -34,7 +34,30 @@ class MakeItSafe {
         System.out.println("Password levels: Really Weak, Weak, Medium, Strong");
     }
 
-    public static void display(String website, String login) {
+    public static void display(String url, String username) {
+        //TODO: Simplify. Display and count have the same logic
+        Website newWebsite = new Website(url);
+        Login newLogin = new Login(username,null);
+
+        Website foundWebsite = accounts.getWebsite(newWebsite);
+
+        if(!isSafeToContinue(newWebsite, newLogin)) {
+            return;
+        }
+
+        if(foundWebsite == null) {
+            //No arguments, fallback to displaying all websites
+            accounts.displayWebsites();
+        } else {
+            Login foundLogin = foundWebsite.getLogin(newLogin);
+            if(foundLogin == null) {
+                //Fallback, display all usernames
+                foundWebsite.displayUsernames();
+            } else {
+                //Specific argument, website and login exist
+                foundWebsite.displayUsername(foundLogin);
+            }
+        }
     }
 
     public static void delete(String website, String login) {

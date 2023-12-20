@@ -13,7 +13,7 @@ public class Login {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void updateUsername(String username) {
         this.username = username;
     }
 
@@ -22,7 +22,7 @@ public class Login {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void updatePassword(String password) {
         this.password = password;
     }
 }

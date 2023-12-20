@@ -32,9 +32,7 @@ public class Website {
     }
 
     public Boolean passwordValidSecurityStrength(Login newLogin) {
-        Integer value = PasswordStrength.getInstance().checkPassword(newLogin.getPassword());
-
-        PasswordStrengthLevel passwordLevel = PasswordStrengthLevel.fromValue(value);
+        PasswordStrengthLevel passwordLevel = getPasswordSecurityStrength(newLogin.getPassword());
 
         if(passwordLevel == PasswordStrengthLevel.REALLY_WEAK) {
             String message = String.format("Password '%s' doesn't have the minimum strength requirement.", newLogin.getPassword());
@@ -42,6 +40,12 @@ public class Website {
         }
 
         return passwordLevel != PasswordStrengthLevel.REALLY_WEAK;
+    }
+
+    private PasswordStrengthLevel getPasswordSecurityStrength(String password) {
+        Integer value = PasswordStrength.getInstance().checkPassword(password);
+        PasswordStrengthLevel passwordLevel = PasswordStrengthLevel.fromValue(value);
+        return passwordLevel;
     }
 
     public Login getLogin(Login login) {
@@ -87,5 +91,29 @@ public class Website {
         String message = String.format("Count: Website '%s' have a total of %d usernames", url, count);
         System.out.println(message);
         return count;
+    }
+
+    public void displayUsernames() {
+        if(this.logins.size() != 0) {
+            for (Login login : logins) {
+                displayUsername(login);
+            }
+        } else {
+            String message = String.format("Display: Website '%s' doesn't have usernames to show", url);
+            System.out.println(message);
+        }
+    }
+
+    public void displayUsername(Login login) {
+        if(this.logins.size() != 0) {
+            if(this.logins.contains(login)) {
+                String passwordSecurityStrength = getPasswordSecurityStrength(login.getPassword()).getStringValue();
+                String message = String.format("<%s> - login : <%s> pwd : <%s> (%s)", url, login.getUsername(), login.getPassword(), passwordSecurityStrength);
+                System.out.println(message);
+            }
+        } else {
+            String message = String.format("Display: Website '%s' doesn't have usernames to show", url);
+            System.out.println(message);
+        }
     }
 }

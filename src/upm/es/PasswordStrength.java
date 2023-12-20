@@ -1,11 +1,6 @@
 package upm.es;
 
 public class PasswordStrength {
-    /*Really Weak : Only one rule
-    Weak : Two of the four rules
-    Medium : Three Rules
-    Strong : The four rules*/
-
     String lessThan8CharsRegex = ".{1,7}";
     String hasLettersRegex = ".*[a-zA-Z].*";
     String hasNumbersRegex = ".*\\d.*";

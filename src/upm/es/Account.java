@@ -42,7 +42,7 @@ public class Account {
         }
     }
 
-    public String countWebsites() {
+    public void countWebsites() {
         Integer totalWebsites = this.websites.size();
         Integer totalUsernames = 0;
         for (Website website : websites) {
@@ -51,5 +51,11 @@ public class Account {
 
         String message = String.format("Count: Total Websites: '%s'. Total Usernames: %d", totalWebsites, totalUsernames);
         System.out.println(message);
+    }
+
+    public void displayWebsites() {
+        for (Website website : websites) {
+            website.displayUsernames();
+        }
     }
 }

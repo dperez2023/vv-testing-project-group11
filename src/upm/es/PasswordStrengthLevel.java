@@ -23,4 +23,8 @@ public enum PasswordStrengthLevel {
         }
         throw new IllegalArgumentException("Invalid value for PasswordStrengthLevel: " + value);
     }
+
+    public String getStringValue() {
+        return this.toString();
+    }
 }
