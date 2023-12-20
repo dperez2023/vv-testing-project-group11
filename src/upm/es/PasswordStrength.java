@@ -11,6 +11,15 @@ public class PasswordStrength {
     String hasNumbersRegex = ".*\\d.*";
     String hasSpecialCharsRegex = ".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*";
 
+    private static PasswordStrength instance;
+
+    private PasswordStrength() { }
+
+    public static synchronized PasswordStrength getInstance() {
+        if (instance == null) { instance = new PasswordStrength(); }
+        return instance;
+    }
+
     public Integer checkPassword(String value) {
         Integer count = 0;
 
@@ -19,7 +28,7 @@ public class PasswordStrength {
         count += (value.matches(hasNumbersRegex) ? 1 : 0);
         count += (value.matches(hasSpecialCharsRegex) ? 1 : 0);
 
-
+        return count;
     }
 }
 

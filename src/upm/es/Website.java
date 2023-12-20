@@ -32,9 +32,16 @@ public class Website {
     }
 
     public Boolean passwordValidSecurityStrength(Login newLogin) {
+        Integer value = PasswordStrength.getInstance().checkPassword(newLogin.getPassword());
 
-        String message = String.format("Password doesn't have the minimum strength requirement: Login's password '%s' hasn't been found.", newLogin.getPassword());
-        System.out.println(message);
+        PasswordStrengthLevel passwordLevel = PasswordStrengthLevel.fromValue(value);
+
+        if(passwordLevel == PasswordStrengthLevel.REALLY_WEAK) {
+            String message = String.format("Password '%s' doesn't have the minimum strength requirement.", newLogin.getPassword());
+            System.out.println(message);
+        }
+
+        return passwordLevel != PasswordStrengthLevel.REALLY_WEAK;
     }
 
     public Login getLogin(Login login) {
@@ -50,10 +57,16 @@ public class Website {
     }
 
     public Boolean addLogin(Login login) {
-        this.logins.add(login);
-        String message = String.format("Add: Username '%s' has been added.", login.getUsername());
-        System.out.println(message);
-        return true;
+        if(!this.logins.contains(login)) {
+            this.logins.add(login);
+            String message = String.format("Add: Username '%s' has been added.", login.getUsername());
+            System.out.println(message);
+            return true;
+        } else {
+            String message = String.format("Add: Username '%s' exists. Can't be added.", login.getUsername());
+            System.out.println(message);
+            return false;
+        }
     }
 
     public Boolean removeLogin(Login login) {
