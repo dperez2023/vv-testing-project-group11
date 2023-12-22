@@ -137,7 +137,7 @@ public class Website {
 
             String message;
             if(strengthLevel != null) {
-                message = String.format("<%s> - login : <%s> pwd : <%s> (%s)", url, login.getUsername(), login.getPassword(), strengthLevel.toString());
+                message = String.format("<%s> - login: <%s> pwd: <%s> (%s)", url, login.getUsername(), login.getPassword(), strengthLevel.toString());
                 Logger.success(message);
             } else {
                 message = String.format("Display: Error displaying login for %s website", url);
