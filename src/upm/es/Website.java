@@ -22,9 +22,9 @@ public class Website {
     }
 
     public Boolean passwordExists(Login newLogin) {
-        for (Login login : logins) {
-            if(login.getPassword() == newLogin.getPassword()) {
-                String message = String.format("Password Exists: Login password %s has been found.", newLogin.getPassword());
+        for (Login login : this.logins) {
+            if(login.getPassword().contains(newLogin.getPassword())) {
+                String message = String.format("Password Exists: Login password %s", newLogin.getPassword());
                 System.out.println(message);
                 return true;
             }

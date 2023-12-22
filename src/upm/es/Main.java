@@ -167,7 +167,7 @@ class MakeItSafe {
                 }
             } else {
                 //If the login already exists, we can't add it again, show error
-                String message = String.format("Adding error: Username %s can't be added.", newLogin.getUsername());
+                String message = String.format("Adding error: Username %s can't be added. Already exist", newLogin.getUsername());
                 System.out.println(message);
             }
         }
