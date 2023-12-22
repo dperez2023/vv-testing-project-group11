@@ -36,26 +36,14 @@ class MakeItSafe {
             Logger.command(command.getString());
             Logger.command("-----------------");
             switch (command.getType()) {
-                case help:
-                    help();
-                    break;
-                case display:
-                    display(arg1,arg2);
-                    break;
-                case add:
-                    add(arg1,arg2,arg3);
-                    break;
-                case count:
-                    count(arg1);
-                    break;
-                case update:
-                    update(arg1,arg2,arg3);
-                    break;
-                case delete:
-                    delete(arg1,arg2);
-                    break;
-                default:
-                    break;
+                case help -> help();
+                case display -> display(arg1, arg2);
+                case add -> add(arg1, arg2, arg3);
+                case count -> count(arg1);
+                case update -> update(arg1, arg2, arg3);
+                case delete -> delete(arg1, arg2);
+                default -> {
+                }
             }
         } else {
             System.out.println("Command Error: Arguments mismatch (There are more arguments than required by the command:");
