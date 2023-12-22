@@ -12,11 +12,11 @@ public class Account {
 
     public Website getWebsite(Website website) {
         if(this.websites.contains(website)) {
-            String message = String.format("Get: Website '%s' has been found.", website.getUrl());
+            String message = String.format("Get: Website %s has been found.", website.getUrl());
             System.out.println(message);
             return website;
         } else {
-            String message = String.format("Get: Website '%s' haven't been found.", website.getUrl());
+            String message = String.format("Get: Website %s havent been found.", website.getUrl());
             System.out.println(message);
             return null;
         }
@@ -24,7 +24,7 @@ public class Account {
 
     public Boolean addWebsite(Website website) {
         this.websites.add(website);
-        String message = String.format("Add: Website '%s' has been added.", website.getUrl());
+        String message = String.format("Add: Website %s has been added.", website.getUrl());
         System.out.println(message);
         return true;
     }
@@ -32,11 +32,11 @@ public class Account {
     public Boolean removeWebsite(Website website) {
         if(getWebsite(website) != null) {
             this.websites.remove(website);
-            String message = String.format("Remove: Website '%s' has been removed", website.getUrl());
+            String message = String.format("Remove: Website %s has been removed", website.getUrl());
             System.out.println(message);
             return true;
         } else {
-            String message = String.format("Remove: Website '%s' doesn't exist.", website.getUrl());
+            String message = String.format("Remove: Website %s doesnt exist.", website.getUrl());
             System.out.println(message);
             return false;
         }
@@ -49,7 +49,7 @@ public class Account {
             totalUsernames += website.countUsernames();
         }
 
-        String message = String.format("Count: Total Websites: '%s'. Total Usernames: %d", totalWebsites, totalUsernames);
+        String message = String.format("Count: Total Websites: %s. Total Usernames: %d", totalWebsites, totalUsernames);
         System.out.println(message);
     }
 

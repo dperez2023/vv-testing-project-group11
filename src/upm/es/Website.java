@@ -20,13 +20,13 @@ public class Website {
     public Boolean passwordExists(Login newLogin) {
         for (Login login : logins) {
             if(login.getPassword() == newLogin.getPassword()) {
-                String message = String.format("Password Exists: Login's password '%s' has been found.", newLogin.getPassword());
+                String message = String.format("Password Exists: Login password %s has been found.", newLogin.getPassword());
                 System.out.println(message);
                 return true; //At first match, break the for loop
             }
         }
 
-        String message = String.format("Password doesn't exist: Login's password '%s' hasn't been found.", newLogin.getPassword());
+        String message = String.format("Password doesnt exist: Login password %s hasnt been found.", newLogin.getPassword());
         System.out.println(message);
         return false;
     }
@@ -35,7 +35,7 @@ public class Website {
         PasswordStrengthLevel passwordLevel = getPasswordSecurityStrength(newLogin.getPassword());
 
         if(passwordLevel == PasswordStrengthLevel.REALLY_WEAK) {
-            String message = String.format("Password '%s' doesn't have the minimum strength requirement.", newLogin.getPassword());
+            String message = String.format("Password %s doesnt have the minimum strength requirement.", newLogin.getPassword());
             System.out.println(message);
         }
 
@@ -50,11 +50,11 @@ public class Website {
 
     public Login getLogin(Login login) {
         if(this.logins.contains(login)) {
-            String message = String.format("Get: Username '%s' has been found.", login.getUsername());
+            String message = String.format("Get: Username %s has been found.", login.getUsername());
             System.out.println(message);
             return login;
         } else {
-            String message = String.format("Get: Username '%s' haven't been found.", login.getUsername());
+            String message = String.format("Get: Username %s haven't been found.", login.getUsername());
             System.out.println(message);
             return null;
         }
@@ -63,11 +63,11 @@ public class Website {
     public Boolean addLogin(Login login) {
         if(!this.logins.contains(login)) {
             this.logins.add(login);
-            String message = String.format("Add: Username '%s' has been added.", login.getUsername());
+            String message = String.format("Add: Username %s has been added.", login.getUsername());
             System.out.println(message);
             return true;
         } else {
-            String message = String.format("Add: Username '%s' exists. Can't be added.", login.getUsername());
+            String message = String.format("Add: Username %s exists. Cant be added.", login.getUsername());
             System.out.println(message);
             return false;
         }
@@ -76,11 +76,11 @@ public class Website {
     public Boolean removeUsername(Login login) {
         if(getLogin(login) != null) {
             this.logins.remove(login);
-            String message = String.format("Remove: Username '%s' has been removed.", login.getUsername());
+            String message = String.format("Remove: Username %s has been removed.", login.getUsername());
             System.out.println(message);
             return true;
         } else {
-            String message = String.format("Remove: Username '%s' doesn't exist.", login.getUsername());
+            String message = String.format("Remove: Username %s doesn't exist.", login.getUsername());
             System.out.println(message);
             return false;
         }
@@ -88,7 +88,7 @@ public class Website {
 
     public Integer countUsernames() {
         Integer count = this.logins.size();
-        String message = String.format("Count: Website '%s' have a total of %d usernames", url, count);
+        String message = String.format("Count: Website %s have a total of %d usernames", url, count);
         System.out.println(message);
         return count;
     }
@@ -99,7 +99,7 @@ public class Website {
                 displayUsername(login);
             }
         } else {
-            String message = String.format("Display: Website '%s' doesn't have usernames to show", url);
+            String message = String.format("Display: Website %s doesn't have usernames to show", url);
             System.out.println(message);
         }
     }
@@ -112,7 +112,7 @@ public class Website {
                 System.out.println(message);
             }
         } else {
-            String message = String.format("Display: Website '%s' doesn't have usernames to show", url);
+            String message = String.format("Display: Website %s doesn't have usernames to show", url);
             System.out.println(message);
         }
     }

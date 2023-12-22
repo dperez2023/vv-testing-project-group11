@@ -11,13 +11,15 @@ class MakeItSafe {
 
     public static void main(String[] args){
         if (args.length != 1) {
-            System.out.println("Usage: java FileReaderExample <file_path>");
+            System.out.println("File path needs to be added as a parameter when executing the program, for example: java MakeItSafe <file_path>");
             System.exit(1);
+        } else {
+            System.out.println(String.format("Using filepath: '%s'", args[0]));
         }
 
         commands = CustomFileReader.read(args[0]);
         for (Command command : commands) {
-            //executeCommand(command);
+            executeCommand(command);
         }
     }
 
@@ -43,6 +45,9 @@ class MakeItSafe {
                     break;
                 case delete:
                     delete(arguments.get(0),arguments.get(1));
+                    break;
+                default:
+                    //Silent break, unknown commands are simply ignored
                     break;
             }
         } else {
@@ -113,19 +118,19 @@ class MakeItSafe {
         }
 
         if(foundWebsite == null) {
-            String message = String.format("Delete error: Website '%s' doesn't exist", url);
+            String message = String.format("Delete error: Website %s doesn't exist", url);
             System.out.println(message);
         } else {
             Login foundLogin = foundWebsite.getLogin(newLogin);
             if(foundLogin == null) {
-                String message = String.format("Delete error: Username '%s' doesn't exist", username);
+                String message = String.format("Delete error: Username %s doesn't exist", username);
                 System.out.println(message);
             } else {
                 if(foundWebsite.removeUsername(newLogin)) {
-                    String message = String.format("Deleted successfully: Username '%s' has been removed", username);
+                    String message = String.format("Deleted successfully: Username %s has been removed", username);
                     System.out.println(message);
                 } else {
-                    String message = String.format("Delete error: Username '%s' failed to remove", username);
+                    String message = String.format("Delete error: Username %s failed to remove", username);
                     System.out.println(message);
                 }
             }
@@ -159,7 +164,7 @@ class MakeItSafe {
                 //If the login doesn't exist, check if the password exists within the list of logins of that website
                 if(foundWebsite.passwordExists(newLogin)) {
                     //Show message that the password exists and can't be added
-                    String message = String.format("Adding error: Username '%s' can't be added.", newLogin.getUsername());
+                    String message = String.format("Adding error: Username %s can't be added.", newLogin.getUsername());
                     System.out.println(message);
                     System.out.println("ADD COMPLETED SUCCESSFULLY");
                 } else {
@@ -168,25 +173,25 @@ class MakeItSafe {
                         //If the password matches security requirements, add the login
                         if(foundWebsite.addLogin(newLogin)) {
                             //If adding didn't fail, show success message
-                            String message = String.format("Adding successfully: Username '%s' has been added.", newLogin.getUsername());
+                            String message = String.format("Adding successfully: Username %s has been added.", newLogin.getUsername());
                             System.out.println(message);
                             System.out.println("ADD COMPLETED SUCCESSFULLY");
                         } else {
                             //If adding did fail, show error message
-                            String message = String.format("Adding error: Username '%s' can't be added.", newLogin.getUsername());
+                            String message = String.format("Adding error: Username %s can't be added.", newLogin.getUsername());
                             System.out.println(message);
                             System.out.println("ADD COMPLETED WITH ERROR");
                         }
                     } else {
                         //If the password strength validation failed, show error
-                        String message = String.format("Adding error: Username '%s' can't be added.", newLogin.getUsername());
+                        String message = String.format("Adding error: Username %s can't be added.", newLogin.getUsername());
                         System.out.println(message);
                         System.out.println("ADD COMPLETED WITH ERROR");
                     }
                 }
             } else {
                 //If the login already exists, we can't add it again, show error
-                String message = String.format("Adding error: Username '%s' can't be added.", newLogin.getUsername());
+                String message = String.format("Adding error: Username %s can't be added.", newLogin.getUsername());
                 System.out.println(message);
                 System.out.println("ADD COMPLETED WITH ERROR");
             }
@@ -213,13 +218,13 @@ class MakeItSafe {
     private static Boolean isSafeToContinue(Website website, Login login) {
         //A basic component to check that we are getting the right basic inputs if login/websites are being used as arguments
         if (website != null) {
-            String message = String.format("Not safe: Website '%s' doesn't have the right format or is empty", website.getUrl());
+            String message = String.format("Not safe: Website %s doesn't have the right format or is empty", website.getUrl());
             System.out.println(message);
             return (website.getUrl() != "");
         }
 
         if (login != null) {
-            String message = String.format("Not safe: Login '%s' doesn't have the right format or is empty", login.getUsername());
+            String message = String.format("Not safe: Login %s doesn't have the right format or is empty", login.getUsername());
             System.out.println(message);
             return (login.getUsername() != "" && login.getPassword() != "");
         }

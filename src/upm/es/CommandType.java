@@ -6,7 +6,8 @@ public enum CommandType {
     add,
     count,
     update,
-    delete;
+    delete,
+    unknown;
 
     public Integer getArgumentsSize() {
         switch (this) {
@@ -25,5 +26,25 @@ public enum CommandType {
         }
 
         return -1;
+    }
+
+    public static CommandType fromString(String value) {
+        switch (value.toLowerCase()) {
+            case "help":
+                return help;
+            case "display":
+                return display;
+            case "add":
+                return add;
+            case "count":
+                return count;
+            case "update":
+                return update;
+            case "delete":
+                return delete;
+            default:
+                System.out.println("Unknown command type: " + value);
+                return unknown;
+        }
     }
 }
