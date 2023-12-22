@@ -16,7 +16,7 @@ public class Account {
             System.out.println(message);
             return website;
         } else {
-            String message = String.format("Get: Website %s havent been found.", website.getUrl());
+            String message = String.format("Get: Website %s haven't been found.", website.getUrl());
             System.out.println(message);
             return null;
         }
@@ -25,7 +25,7 @@ public class Account {
     public Boolean addWebsite(Website website) {
         this.websites.add(website);
         String message = String.format("Add: Website %s has been added.", website.getUrl());
-        System.out.println(message);
+        Logger.success(message);
         return true;
     }
 
@@ -33,13 +33,19 @@ public class Account {
         if(getWebsite(website) != null) {
             this.websites.remove(website);
             String message = String.format("Remove: Website %s has been removed", website.getUrl());
-            System.out.println(message);
+            Logger.success(message);
             return true;
         } else {
             String message = String.format("Remove: Website %s doesnt exist.", website.getUrl());
-            System.out.println(message);
+            Logger.error(message);
             return false;
         }
+    }
+
+    public void removeWebsites() {
+        this.websites = new ArrayList<>();
+        String message = String.format("Remove: All websites has been removed");
+        Logger.error(message);
     }
 
     public void countWebsites() {
@@ -50,7 +56,7 @@ public class Account {
         }
 
         String message = String.format("Count: Total Websites: %s. Total Usernames: %d", totalWebsites, totalUsernames);
-        System.out.println(message);
+        Logger.success(message);
     }
 
     public void displayWebsites() {

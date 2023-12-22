@@ -22,11 +22,11 @@ public class Website {
             if(login.getPassword() == newLogin.getPassword()) {
                 String message = String.format("Password Exists: Login password %s has been found.", newLogin.getPassword());
                 System.out.println(message);
-                return true; //At first match, break the for loop
+                return true;
             }
         }
 
-        String message = String.format("Password doesnt exist: Login password %s hasnt been found.", newLogin.getPassword());
+        String message = String.format("Password doesnt exist: Login password %s hasn't been found.", newLogin.getPassword());
         System.out.println(message);
         return false;
     }
@@ -36,7 +36,7 @@ public class Website {
 
         if(passwordLevel == PasswordStrengthLevel.REALLY_WEAK) {
             String message = String.format("Password %s doesnt have the minimum strength requirement.", newLogin.getPassword());
-            System.out.println(message);
+            Logger.error(message);
         }
 
         return passwordLevel != PasswordStrengthLevel.REALLY_WEAK;
@@ -49,7 +49,7 @@ public class Website {
             return passwordLevel;
         } else {
             String message = String.format("Password error: Password is empty");
-            System.out.println(message);
+            Logger.error(message);
             return null;
         }
     }
@@ -70,11 +70,11 @@ public class Website {
         if(!this.logins.contains(login)) {
             this.logins.add(login);
             String message = String.format("Add: Username %s has been added.", login.getUsername());
-            System.out.println(message);
+            Logger.success(message);
             return true;
         } else {
-            String message = String.format("Add: Username %s exists. Cant be added.", login.getUsername());
-            System.out.println(message);
+            String message = String.format("Add: Username %s already exists. Cant be re-added.", login.getUsername());
+            Logger.error(message);
             return false;
         }
     }
@@ -83,11 +83,11 @@ public class Website {
         if(getLogin(login) != null) {
             this.logins.remove(login);
             String message = String.format("Remove: Username %s has been removed.", login.getUsername());
-            System.out.println(message);
+            Logger.success(message);
             return true;
         } else {
             String message = String.format("Remove: Username %s doesn't exist.", login.getUsername());
-            System.out.println(message);
+            Logger.error(message);
             return false;
         }
     }
@@ -95,7 +95,7 @@ public class Website {
     public Integer countUsernames() {
         Integer count = this.logins.size();
         String message = String.format("Count: Website %s have a total of %d usernames", url, count);
-        System.out.println(message);
+        Logger.success(message);
         return count;
     }
 
@@ -106,7 +106,7 @@ public class Website {
             }
         } else {
             String message = String.format("Display: Website %s doesn't have usernames to show", url);
-            System.out.println(message);
+            Logger.error(message);
         }
     }
 
@@ -118,14 +118,15 @@ public class Website {
                 String message;
                 if(strengthLevel != null) {
                     message = String.format("<%s> - login : <%s> pwd : <%s> (%s)", url, login.getUsername(), login.getPassword(), strengthLevel.toString());
+                    Logger.success(message);
                 } else {
                     message = String.format("Display: Error displaying login for %s website", url);
+                    Logger.error(message);
                 }
-                System.out.println(message);
             }
         } else {
             String message = String.format("Display: Website %s doesn't have usernames to show", url);
-            System.out.println(message);
+            Logger.error(message);
         }
     }
 }
