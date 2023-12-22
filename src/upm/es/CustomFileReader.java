@@ -15,13 +15,21 @@ public class CustomFileReader {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(" ");
+                List<String> rawArguments = new ArrayList<>();
+                List<String> arguments = new ArrayList<>();
 
                 String command = parts[0].trim();
-                String arg1 = (parts.length > 1) ? parts[1].trim() : "";
-                String arg2 = (parts.length > 2) ? parts[2].trim() : "";
-                String arg3 = (parts.length > 3) ? parts[3].trim() : "";
+                rawArguments.add((parts.length > 1) ? parts[1].trim() : "");
+                rawArguments.add((parts.length > 2) ? parts[2].trim() : "");
+                rawArguments.add((parts.length > 3) ? parts[3].trim() : "");
 
-                Command newCommand = new Command(CommandType.fromString(command), Arrays.asList(arg1,arg2,arg3));
+                for (String argument : rawArguments) {
+                    if(!argument.isEmpty()) {
+                        arguments.add(argument);
+                    }
+                }
+
+                Command newCommand = new Command(CommandType.fromString(command), arguments);
                 commandsList.add(newCommand);
             }
         } catch (IOException e) {

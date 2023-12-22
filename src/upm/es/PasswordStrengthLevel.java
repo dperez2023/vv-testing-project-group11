@@ -16,6 +16,10 @@ public enum PasswordStrengthLevel {
     }
 
     public static PasswordStrengthLevel fromValue(int value) {
+        if (value < 1 || value > 4) {
+            throw new IllegalArgumentException("Invalid value for PasswordStrengthLevel");
+        }
+
         for (PasswordStrengthLevel level : PasswordStrengthLevel.values()) {
             if (level.value == value) {
                 return level;
@@ -25,7 +29,6 @@ public enum PasswordStrengthLevel {
     }
 
     public String getStringValue() {
-        //TODO: Might require fixing, unsure if it gets the actual names
         return this.toString();
     }
 }

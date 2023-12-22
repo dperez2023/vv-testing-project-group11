@@ -25,6 +25,9 @@ class MakeItSafe {
 
     private static void executeCommand(Command command) {
         List<String> arguments = command.getArguments();
+        String arg1 = arguments.size() >= 1 ? arguments.get(0) : null;
+        String arg2 = arguments.size() >= 2 ? arguments.get(1) : null;
+        String arg3 = arguments.size() >= 3 ? arguments.get(2) : null;
 
         if(arguments.size() <= command.getType().getArgumentsSize()) {
             switch (command.getType()) {
@@ -32,26 +35,22 @@ class MakeItSafe {
                     help();
                     break;
                 case display:
-                    display(arguments.get(0),arguments.get(1));
-                    break;
+                    display(arg1,arg2);
                 case add:
-                    add(arguments.get(0),arguments.get(1),arguments.get(2));
-                    break;
+                    add(arg1,arg2,arg3);
                 case count:
-                    count(arguments.get(0));
-                    break;
+                    count(arg1);
                 case update:
-                    update(arguments.get(0),arguments.get(1),arguments.get(2));
-                    break;
+                    update(arg1,arg2,arg3);
                 case delete:
-                    delete(arguments.get(0),arguments.get(1));
-                    break;
+                    delete(arg1,arg2);
                 default:
                     //Silent break, unknown commands are simply ignored
                     break;
             }
         } else {
-            System.out.println("Command Error: Arguments mismatch");
+            System.out.println("Command Error: Arguments mismatch (There are more arguments than required by the command:");
+            System.out.println(String.format("Command %s Arguments: %s %s %s",command.getType(),arguments.get(0),arguments.get(1),arguments.get(2)));
         }
     }
 
@@ -82,6 +81,7 @@ class MakeItSafe {
     }
 
     public static void display(String url, String username) {
+        System.out.println("------- DISPLAY -------");
         //TODO: Simplify. Display and count have the same logic
         Website newWebsite = new Website(url);
         Login newLogin = new Login(username,null);
@@ -108,6 +108,7 @@ class MakeItSafe {
     }
 
     public static void delete(String url, String username) {
+        System.out.println("------- DELETE -------");
         Website newWebsite = new Website(url);
         Login newLogin = new Login(username,null);
 
@@ -138,10 +139,12 @@ class MakeItSafe {
     }
 
     public static void update(String url, String username, String password) {
+        System.out.println("------- UPDATE -------");
         //TODO: Pending
     }
 
     public static void add(String url, String username, String password) {
+        System.out.println("------- ADD -------");
         Website newWebsite = new Website(url);
         Login newLogin = new Login(username,password);
 
@@ -199,6 +202,7 @@ class MakeItSafe {
     }
 
     public static void count(String url) {
+        System.out.println("------- COUNT -------");
         Website newWebsite = new Website(url);
         Website foundWebsite = accounts.getWebsite(newWebsite);
 
@@ -217,15 +221,18 @@ class MakeItSafe {
 
     private static Boolean isSafeToContinue(Website website, Login login) {
         //A basic component to check that we are getting the right basic inputs if login/websites are being used as arguments
-        if (website != null) {
-            String message = String.format("Not safe: Website %s doesn't have the right format or is empty", website.getUrl());
+        if (website != null && website.getUrl() != null) {
+            String message = String.format("Not safe: Website %s doesn't have the right format or is empty", website);
             System.out.println(message);
             return (website.getUrl() != "");
         }
 
-        if (login != null) {
-            String message = String.format("Not safe: Login %s doesn't have the right format or is empty", login.getUsername());
-            System.out.println(message);
+        if (login != null && login.getUsername() != null && login.getPassword() != null) {
+            if(login.getUsername() == "" && login.getPassword() == "") {
+                String message = String.format("Not safe: Login %s doesn't have the right format or is empty", login);
+                System.out.println(message);
+            }
+
             return (login.getUsername() != "" && login.getPassword() != "");
         }
 

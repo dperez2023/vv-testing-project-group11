@@ -43,9 +43,15 @@ public class Website {
     }
 
     private PasswordStrengthLevel getPasswordSecurityStrength(String password) {
-        Integer value = PasswordStrength.getInstance().checkPassword(password);
-        PasswordStrengthLevel passwordLevel = PasswordStrengthLevel.fromValue(value);
-        return passwordLevel;
+        if (password != null) {
+            Integer value = PasswordStrength.getInstance().checkPassword(password);
+            PasswordStrengthLevel passwordLevel = PasswordStrengthLevel.fromValue(value);
+            return passwordLevel;
+        } else {
+            String message = String.format("Password error: Password is empty");
+            System.out.println(message);
+            return null;
+        }
     }
 
     public Login getLogin(Login login) {
@@ -107,8 +113,14 @@ public class Website {
     public void displayUsername(Login login) {
         if(this.logins.size() != 0) {
             if(this.logins.contains(login)) {
-                String passwordSecurityStrength = getPasswordSecurityStrength(login.getPassword()).getStringValue();
-                String message = String.format("<%s> - login : <%s> pwd : <%s> (%s)", url, login.getUsername(), login.getPassword(), passwordSecurityStrength);
+                PasswordStrengthLevel strengthLevel = getPasswordSecurityStrength(login.getPassword());
+
+                String message;
+                if(strengthLevel != null) {
+                    message = String.format("<%s> - login : <%s> pwd : <%s> (%s)", url, login.getUsername(), login.getPassword(), strengthLevel.toString());
+                } else {
+                    message = String.format("Display: Error displaying login for %s website", url);
+                }
                 System.out.println(message);
             }
         } else {
