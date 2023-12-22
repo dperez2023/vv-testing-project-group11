@@ -1,6 +1,8 @@
 help
 add "www.google.com" "username1" "password1"
 add "www.google.com" "username11" "password11"
+add "www.google.com" "username22" "password22"
 display "www.google2.com" "username2"
 display "www.google.com"
+delete "www.google.com" "username11"
 display

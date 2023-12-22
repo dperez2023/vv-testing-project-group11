@@ -12,14 +12,14 @@ public class Account {
 
     public Website getWebsite(Website website) {
         Website exists = this.websites.stream()
-                .filter(currentWebsite -> currentWebsite.getUrl() == website.getUrl())
+                .filter(currentWebsite -> currentWebsite.getUrl().equals(website.getUrl()))
                 .findFirst()
                 .orElse(null);
 
         if(exists != null) {
             String message = String.format("Get: Website %s has been found.", website.getUrl());
             //System.out.println(message);
-            return website;
+            return exists;
         } else {
             String message = String.format("Get: Website %s haven't been found.", website.getUrl());
             //System.out.println(message);
@@ -28,15 +28,19 @@ public class Account {
     }
 
     public Boolean addWebsite(Website website) {
-        this.websites.add(website);
-        String message = String.format("Add: Website %s has been added.", website.getUrl());
-        Logger.success(message);
-        return true;
+        if(getWebsite(website) == null) {
+            this.websites.add(website);
+            String message = String.format("Add: Website %s has been added.", website.getUrl());
+            Logger.success(message);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Boolean removeWebsite(Website website) {
         if(getWebsite(website) != null) {
-            this.websites.remove(website);
+            this.websites.remove(getWebsite(website));
             String message = String.format("Remove: Website %s has been removed", website.getUrl());
             Logger.success(message);
             return true;

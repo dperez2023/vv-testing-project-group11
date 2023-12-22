@@ -122,7 +122,7 @@ class MakeItSafe {
             } else {
                 if(foundWebsite.removeUsername(newLogin)) {
                     String message = String.format("Deleted successfully: Username %s has been removed", username);
-                    System.out.println(message);
+                    //System.out.println(message);
                 } else {
                     String message = String.format("Delete error: Username %s failed to remove", username);
                     System.out.println(message);
@@ -147,27 +147,21 @@ class MakeItSafe {
         }
 
         if (foundWebsite == null) {
-            //If the website is not found
-            accounts.addWebsite(newWebsite); //Adds website because it doesn't exist
+            accounts.addWebsite(newWebsite);
 
-            accounts.getWebsite(newWebsite) //Adds login to the recently added website
+            accounts.getWebsite(newWebsite)
                     .addLogin(newLogin);
         } else {
             //Website is found
             if(foundWebsite.getLogin(newLogin) == null) {
-                //If the login doesn't exist, check if the password exists within the list of logins of that website
                 if(foundWebsite.passwordExists(newLogin)) {
-                    //Show message that the password exists and can't be added
-                    String message = String.format("Adding error: Username %s can't be added.", newLogin.getUsername());
+                    String message = String.format("Adding error: Username %s can't be added, password already exists.", newLogin.getUsername());
                     System.out.println(message);
                 } else {
-                    //The password doesn't exist, we can continue checking if it can be added
                     if(foundWebsite.passwordValidSecurityStrength(newLogin)) {
-                        //If the password matches security requirements, add the login
                         foundWebsite.addLogin(newLogin);
                     } else {
-                        //If the password strength validation failed, show error
-                        String message = String.format("Adding error: Username %s can't be added.", newLogin.getUsername());
+                        String message = String.format("Adding error: Username %s can't be added, is not secure enough.", newLogin.getUsername());
                         System.out.println(message);
                     }
                 }

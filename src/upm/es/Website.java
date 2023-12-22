@@ -60,14 +60,14 @@ public class Website {
 
     public Login getLogin(Login login) {
         Login exists = this.logins.stream()
-                .filter(currentLogin -> currentLogin.getUsername() == login.getUsername())
+                .filter(currentLogin -> currentLogin.getUsername().equals(login.getUsername()))
                 .findFirst()
                 .orElse(null);
 
         if(exists != null) {
             String message = String.format("Get: Username %s has been found.", login.getUsername());
             //System.out.println(message);
-            return login;
+            return exists;
         } else {
             String message = String.format("Get: Username %s haven't been found.", login.getUsername());
             //System.out.println(message);
@@ -88,7 +88,7 @@ public class Website {
 
     public Boolean removeUsername(Login login) {
         if(getLogin(login) != null) {
-            this.logins.remove(login);
+            this.logins.remove(getLogin(login));
             String message = String.format("Remove: Username %s has been removed.", login.getUsername());
             Logger.success(message);
             return true;
