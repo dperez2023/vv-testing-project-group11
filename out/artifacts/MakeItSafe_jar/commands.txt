@@ -1,3 +1,4 @@
+help
 add "www.google.com" "username1" "password1"
 add "www.google.com" "username11" "password11"
 display "www.google2.com" "username2"

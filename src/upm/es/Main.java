@@ -50,7 +50,7 @@ class MakeItSafe {
             }
         } else {
             System.out.println("Command Error: Arguments mismatch (There are more arguments than required by the command:");
-            System.out.println(String.format("Command %s Arguments: %s %s %s",command.getType(),arguments.get(0),arguments.get(1),arguments.get(2)));
+            System.out.println(String.format("Command %s Arguments: %s %s %s",command.getType(),arg1,arg2,arg3));
         }
     }
 
@@ -77,7 +77,7 @@ class MakeItSafe {
         System.out.println("Rule 2 : Has letters");
         System.out.println("Rule 3 : Has numbers");
         System.out.println("Rule 4 : Has special characters");
-        System.out.println("Password levels: Really Weak (1/4), Weak (2/4), Medium(3/4, Strong (4/4)");
+        System.out.println("Password levels: Really Weak (1/4), Weak (2/4), Medium(3/4), Strong (4/4)");
     }
 
     public static void display(String url, String username) {

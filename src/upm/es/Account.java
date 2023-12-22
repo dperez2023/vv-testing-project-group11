@@ -11,7 +11,12 @@ public class Account {
     }
 
     public Website getWebsite(Website website) {
-        if(this.websites.contains(website)) {
+        Website exists = this.websites.stream()
+                .filter(currentWebsite -> website.getUrl() == website.getUrl())
+                .findFirst()
+                .orElse(null);
+
+        if(exists != null) {
             String message = String.format("Get: Website %s has been found.", website.getUrl());
             System.out.println(message);
             return website;

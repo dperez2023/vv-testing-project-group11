@@ -55,7 +55,12 @@ public class Website {
     }
 
     public Login getLogin(Login login) {
-        if(this.logins.contains(login)) {
+        Login exists = this.logins.stream()
+                .filter(currentLogin -> currentLogin.getUsername() == login.getUsername())
+                .findFirst()
+                .orElse(null);
+
+        if(exists != null) {
             String message = String.format("Get: Username %s has been found.", login.getUsername());
             System.out.println(message);
             return login;
