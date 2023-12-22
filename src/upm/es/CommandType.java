@@ -1,13 +1,19 @@
 package upm.es;
 
 public enum CommandType {
-    help,
-    display,
-    add,
-    count,
-    update,
-    delete,
-    unknown;
+    help("help"),
+    display("display"),
+    add("add"),
+    count("count"),
+    update("update"),
+    delete("delete"),
+    unknown("unknown");
+
+    private String type;
+
+    CommandType(String type) {
+        this.type = type;
+    }
 
     public Integer getArgumentsSize() {
         switch (this) {
@@ -23,9 +29,10 @@ public enum CommandType {
             case count -> {
                 return 1;
             }
+            default -> {
+                return -1;
+            }
         }
-
-        return -1;
     }
 
     public static CommandType fromString(String value) {

@@ -21,7 +21,7 @@ public class Website {
         for (Login login : logins) {
             if(login.getPassword() == newLogin.getPassword()) {
                 String message = String.format("Password Exists: Login password %s has been found.", newLogin.getPassword());
-                System.out.println(message);
+                //System.out.println(message);
                 return true;
             }
         }
@@ -62,7 +62,7 @@ public class Website {
 
         if(exists != null) {
             String message = String.format("Get: Username %s has been found.", login.getUsername());
-            System.out.println(message);
+            //System.out.println(message);
             return login;
         } else {
             String message = String.format("Get: Username %s haven't been found.", login.getUsername());
@@ -71,16 +71,14 @@ public class Website {
         }
     }
 
-    public Boolean addLogin(Login login) {
+    public void addLogin(Login login) {
         if(!this.logins.contains(login)) {
             this.logins.add(login);
             String message = String.format("Add: Username %s has been added.", login.getUsername());
             Logger.success(message);
-            return true;
         } else {
             String message = String.format("Add: Username %s already exists. Cant be re-added.", login.getUsername());
             Logger.error(message);
-            return false;
         }
     }
 

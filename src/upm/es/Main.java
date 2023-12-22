@@ -17,6 +17,8 @@ class MakeItSafe {
             Logger.success(String.format("Using filepath: '%s'", args[0]));
         }
 
+        Logger.command("-----------------");
+        Logger.command("--- Execution ---");
         commands = CustomFileReader.read(args[0]);
         for (Command command : commands) {
             executeCommand(command);
@@ -30,22 +32,29 @@ class MakeItSafe {
         String arg3 = arguments.size() >= 3 ? arguments.get(2) : null;
 
         if(arguments.size() <= command.getType().getArgumentsSize()) {
+            System.out.println("\n");
+            Logger.command(command.getString());
+            Logger.command("-----------------");
             switch (command.getType()) {
                 case help:
                     help();
                     break;
                 case display:
                     display(arg1,arg2);
+                    break;
                 case add:
                     add(arg1,arg2,arg3);
+                    break;
                 case count:
                     count(arg1);
+                    break;
                 case update:
                     update(arg1,arg2,arg3);
+                    break;
                 case delete:
                     delete(arg1,arg2);
+                    break;
                 default:
-                    //Silent break, unknown commands are simply ignored
                     break;
             }
         } else {
@@ -173,15 +182,7 @@ class MakeItSafe {
                     //The password doesn't exist, we can continue checking if it can be added
                     if(foundWebsite.passwordValidSecurityStrength(newLogin)) {
                         //If the password matches security requirements, add the login
-                        if(foundWebsite.addLogin(newLogin)) {
-                            //If adding didn't fail, show success message
-                            String message = String.format("Adding successfully: Username %s has been added.", newLogin.getUsername());
-                            System.out.println(message);
-                        } else {
-                            //If adding did fail, show error message
-                            String message = String.format("Adding error: Username %s can't be added.", newLogin.getUsername());
-                            System.out.println(message);
-                        }
+                        foundWebsite.addLogin(newLogin);
                     } else {
                         //If the password strength validation failed, show error
                         String message = String.format("Adding error: Username %s can't be added.", newLogin.getUsername());

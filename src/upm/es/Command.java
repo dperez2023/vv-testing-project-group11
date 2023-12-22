@@ -18,4 +18,8 @@ public class Command {
     public List<String> getArguments() {
         return arguments;
     }
+
+    public String getString() {
+        return String.format("%s %s",type.toString(), arguments.toString());
+    }
 }

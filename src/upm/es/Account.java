@@ -18,11 +18,11 @@ public class Account {
 
         if(exists != null) {
             String message = String.format("Get: Website %s has been found.", website.getUrl());
-            System.out.println(message);
+            //System.out.println(message);
             return website;
         } else {
             String message = String.format("Get: Website %s haven't been found.", website.getUrl());
-            System.out.println(message);
+            //System.out.println(message);
             return null;
         }
     }
