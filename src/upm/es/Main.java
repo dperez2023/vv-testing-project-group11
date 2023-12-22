@@ -2,6 +2,7 @@ package upm.es;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 class MakeItSafe {
@@ -9,10 +10,14 @@ class MakeItSafe {
     private static List<Command> commands = new ArrayList<>();
 
     public static void main(String[] args){
-        getCommandsFromFile(""); //TODO: Get the file and split accordingly
+        if (args.length != 1) {
+            System.out.println("Usage: java FileReaderExample <file_path>");
+            System.exit(1);
+        }
 
+        commands = CustomFileReader.read(args[0]);
         for (Command command : commands) {
-            executeCommand(command);
+            //executeCommand(command);
         }
     }
 
@@ -28,7 +33,7 @@ class MakeItSafe {
                     display(arguments.get(0),arguments.get(1));
                     break;
                 case add:
-                    add(arguments.get(0),arguments.get(1),arguments.get(2)); //Will it crash if less arguments are sent? .get(n+1) returns nulls or crash?
+                    add(arguments.get(0),arguments.get(1),arguments.get(2));
                     break;
                 case count:
                     count(arguments.get(0));
@@ -45,30 +50,10 @@ class MakeItSafe {
         }
     }
 
-    private static void getCommandsFromFile(String file) {
-        //Split file in lines
-        //For each line separate text by using spaces
-        //First slice should be one of the CommandType strings, if not, ignore the rest
-        //From the second to the last slice strings should be mapped, if not, ignore
-
-        //SIMULATION
-        Command command1 = new Command(CommandType.add, new ArrayList<>(Arrays.asList("www.google.com", "username1", "password1")));
-        Command command2 = new Command(CommandType.add, new ArrayList<>(Arrays.asList("www.google2.com", "username2", "password2")));
-        Command command3 = new Command(CommandType.display, new ArrayList<>(Arrays.asList("www.google.com", "username1")));
-        Command command4 = new Command(CommandType.count, new ArrayList<>(Arrays.asList("www.google.com")));
-        Command command5 = new Command(CommandType.count, new ArrayList<>());
-        Command command6 = new Command(CommandType.display, new ArrayList<>(Arrays.asList("www.google2.com", "username2")));
-        Command command7 = new Command(CommandType.display, new ArrayList<>());
-        commands.add(command1);
-        commands.add(command2);
-        commands.add(command3);
-        commands.add(command4);
-        commands.add(command5);
-        commands.add(command6);
-        commands.add(command7);
-    }
-
     public static void help() {
+        System.out.println("\nInput File:");
+        System.out.println("\nFile path needs to be added as a parameter when executing the program, for example:");
+        System.out.println("\njava MakeItSafe path/to/your/file.txt");
         displayCommands();
         displayPasswordRules();
     }
