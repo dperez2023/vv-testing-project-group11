@@ -86,6 +86,20 @@ public class Website {
         }
     }
 
+    public Boolean updateLogin(Login login) {
+        Login existingLogin = getLogin(login);
+        if(existingLogin != null) {
+            existingLogin.update(login);
+            String message = String.format("Update: Username %s has been updated.", login.getUsername());
+            Logger.success(message);
+            return false;
+        } else {
+            String message = String.format("Update: Username %s doesn't exist, can't be updated", login.getUsername());
+            Logger.error(message);
+            return false;
+        }
+    }
+
     public Boolean removeUsername(Login login) {
         if(getLogin(login) != null) {
             this.logins.remove(getLogin(login));

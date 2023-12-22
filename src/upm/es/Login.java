@@ -26,7 +26,8 @@ public class Login {
         return password;
     }
 
-    public void updatePassword(String password) {
-        this.password = password;
+    public void update(Login login) {
+        this.username = login.username;
+        this.password = login.password;
     }
 }

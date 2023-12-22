@@ -132,7 +132,37 @@ class MakeItSafe {
     }
 
     public static void update(String url, String username, String password) {
-        //TODO: Pending
+        Website newWebsite = new Website(url);
+        Login newLogin = new Login(username,password);
+
+        Website foundWebsite = accounts.getWebsite(newWebsite);
+
+        if(!isSafeToContinue(newWebsite, null, false)) {
+            Logger.error("ADD: ERROR");
+            return;
+        }
+
+        if (foundWebsite != null) {
+            if(foundWebsite.getLogin(newLogin) != null) {
+                if(foundWebsite.passwordExists(newLogin)) {
+                    String message = String.format("Update error: Username %s can't be updated, password already exists.", newLogin.getUsername());
+                    System.out.println(message);
+                } else {
+                    if(foundWebsite.passwordValidSecurityStrength(newLogin)) {
+                        foundWebsite.updateLogin(newLogin);
+                    } else {
+                        String message = String.format("Update error: Username %s can't be updated, the password is not secure enough.", newLogin.getUsername());
+                        System.out.println(message);
+                    }
+                }
+            } else {
+                String message = String.format("Update: Username %s doesn't exist in Website %s", newLogin.getUsername(), foundWebsite.getUrl());
+                Logger.error(message);
+            }
+        } else {
+            String message = String.format("Update: Website %s doesn't exist", newWebsite.getUrl());
+            Logger.error(message);
+        }
     }
 
     public static void add(String url, String username, String password) {
@@ -148,11 +178,9 @@ class MakeItSafe {
 
         if (foundWebsite == null) {
             accounts.addWebsite(newWebsite);
-
             accounts.getWebsite(newWebsite)
                     .addLogin(newLogin);
         } else {
-            //Website is found
             if(foundWebsite.getLogin(newLogin) == null) {
                 if(foundWebsite.passwordExists(newLogin)) {
                     String message = String.format("Adding error: Username %s can't be added, password already exists.", newLogin.getUsername());
@@ -166,7 +194,6 @@ class MakeItSafe {
                     }
                 }
             } else {
-                //If the login already exists, we can't add it again, show error
                 String message = String.format("Adding error: Username %s can't be added. Already exist", newLogin.getUsername());
                 System.out.println(message);
             }
