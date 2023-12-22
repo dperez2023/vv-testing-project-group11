@@ -12,7 +12,7 @@ public class Account {
 
     public Website getWebsite(Website website) {
         Website exists = this.websites.stream()
-                .filter(currentWebsite -> website.getUrl() == website.getUrl())
+                .filter(currentWebsite -> currentWebsite.getUrl() == website.getUrl())
                 .findFirst()
                 .orElse(null);
 
@@ -65,8 +65,13 @@ public class Account {
     }
 
     public void displayWebsites() {
-        for (Website website : websites) {
-            website.displayUsernames();
+        if(!websites.isEmpty()) {
+            for (Website website : websites) {
+                website.displayUsernames();
+            }
+        } else {
+            String message = String.format("Account: No websites to display");
+            Logger.error(message);
         }
     }
 }

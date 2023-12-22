@@ -9,6 +9,10 @@ public class Login {
         this.password = password;
     }
 
+    public Boolean isValid() {
+        return username != null && password != null;
+    }
+
     public String getUsername() {
         return username;
     }

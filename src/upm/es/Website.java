@@ -13,6 +13,10 @@ public class Website {
         this.logins = new ArrayList<>();
     }
 
+    public Boolean isValid() {
+        return url != null;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -21,13 +25,13 @@ public class Website {
         for (Login login : logins) {
             if(login.getPassword() == newLogin.getPassword()) {
                 String message = String.format("Password Exists: Login password %s has been found.", newLogin.getPassword());
-                //System.out.println(message);
+                System.out.println(message);
                 return true;
             }
         }
 
-        String message = String.format("Password doesnt exist: Login password %s hasn't been found.", newLogin.getPassword());
-        System.out.println(message);
+        String message = String.format("Password doesn't exist: Login password %s hasn't been found.", newLogin.getPassword());
+        //System.out.println(message);
         return false;
     }
 
@@ -66,13 +70,13 @@ public class Website {
             return login;
         } else {
             String message = String.format("Get: Username %s haven't been found.", login.getUsername());
-            System.out.println(message);
+            //System.out.println(message);
             return null;
         }
     }
 
     public void addLogin(Login login) {
-        if(!this.logins.contains(login)) {
+        if(getLogin(login) == null) {
             this.logins.add(login);
             String message = String.format("Add: Username %s has been added.", login.getUsername());
             Logger.success(message);
@@ -114,18 +118,16 @@ public class Website {
     }
 
     public void displayUsername(Login login) {
-        if(this.logins.size() != 0) {
-            if(this.logins.contains(login)) {
-                PasswordStrengthLevel strengthLevel = getPasswordSecurityStrength(login.getPassword());
+        if(getLogin(login) != null) {
+            PasswordStrengthLevel strengthLevel = getPasswordSecurityStrength(login.getPassword());
 
-                String message;
-                if(strengthLevel != null) {
-                    message = String.format("<%s> - login : <%s> pwd : <%s> (%s)", url, login.getUsername(), login.getPassword(), strengthLevel.toString());
-                    Logger.success(message);
-                } else {
-                    message = String.format("Display: Error displaying login for %s website", url);
-                    Logger.error(message);
-                }
+            String message;
+            if(strengthLevel != null) {
+                message = String.format("<%s> - login : <%s> pwd : <%s> (%s)", url, login.getUsername(), login.getPassword(), strengthLevel.toString());
+                Logger.success(message);
+            } else {
+                message = String.format("Display: Error displaying login for %s website", url);
+                Logger.error(message);
             }
         } else {
             String message = String.format("Display: Website %s doesn't have usernames to show", url);

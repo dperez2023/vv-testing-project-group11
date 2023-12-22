@@ -17,8 +17,6 @@ class MakeItSafe {
             Logger.success(String.format("Using filepath: '%s'", args[0]));
         }
 
-        Logger.command("-----------------");
-        Logger.command("--- Execution ---");
         commands = CustomFileReader.read(args[0]);
         for (Command command : commands) {
             executeCommand(command);
@@ -32,9 +30,8 @@ class MakeItSafe {
         String arg3 = arguments.size() >= 3 ? arguments.get(2) : null;
 
         if(arguments.size() <= command.getType().getArgumentsSize()) {
-            System.out.println("\n");
+            System.out.println("");
             Logger.command(command.getString());
-            Logger.command("-----------------");
             switch (command.getType()) {
                 case help -> help();
                 case display -> display(arg1, arg2);
@@ -45,6 +42,7 @@ class MakeItSafe {
                 default -> {
                 }
             }
+            Logger.command("---------------------------------------------------");
         } else {
             System.out.println("Command Error: Arguments mismatch (There are more arguments than required by the command:");
             System.out.println(String.format("Command %s Arguments: %s %s %s",command.getType(),arg1,arg2,arg3));
@@ -78,22 +76,17 @@ class MakeItSafe {
     }
 
     public static void display(String url, String username) {
-        System.out.println("------- DISPLAY -------");
-        //TODO: Simplify. Display and count have the same logic
         Website newWebsite = new Website(url);
         Login newLogin = new Login(username,null);
 
         Website foundWebsite = accounts.getWebsite(newWebsite);
 
-        if(!isSafeToContinue(newWebsite, newLogin)) {
-            Logger.error("DISPLAY: ERROR");
+        if(!isSafeToContinue(newWebsite, newLogin, true)) {
+            Logger.error("DISPLAY: Not safe to continue");
             return;
         }
 
-        if(foundWebsite == null) {
-            //No arguments, fallback to displaying all websites
-            accounts.displayWebsites();
-        } else {
+        if(foundWebsite != null) {
             Login foundLogin = foundWebsite.getLogin(newLogin);
             if(foundLogin == null) {
                 //Fallback, display all usernames
@@ -102,17 +95,20 @@ class MakeItSafe {
                 //Specific argument, website and login exist
                 foundWebsite.displayUsername(foundLogin);
             }
+        } else if(!newWebsite.isValid()) {
+            accounts.displayWebsites();
+        } else {
+            Logger.error("DISPLAY: Website doesn't exist");
         }
     }
 
     public static void delete(String url, String username) {
-        System.out.println("------- DELETE -------");
         Website newWebsite = new Website(url);
         Login newLogin = new Login(username,null);
 
         Website foundWebsite = accounts.getWebsite(newWebsite);
 
-        if(!isSafeToContinue(newWebsite, newLogin)) {
+        if(!isSafeToContinue(newWebsite, newLogin, false)) {
             Logger.error("DELETE: ERROR");
             return;
         }
@@ -136,18 +132,16 @@ class MakeItSafe {
     }
 
     public static void update(String url, String username, String password) {
-        System.out.println("------- UPDATE -------");
         //TODO: Pending
     }
 
     public static void add(String url, String username, String password) {
-        System.out.println("------- ADD -------");
         Website newWebsite = new Website(url);
         Login newLogin = new Login(username,password);
 
         Website foundWebsite = accounts.getWebsite(newWebsite);
 
-        if(!isSafeToContinue(newWebsite, null)) {
+        if(!isSafeToContinue(newWebsite, null, false)) {
             Logger.error("ADD: ERROR");
             return;
         }
@@ -186,11 +180,10 @@ class MakeItSafe {
     }
 
     public static void count(String url) {
-        System.out.println("------- COUNT -------");
         Website newWebsite = new Website(url);
         Website foundWebsite = accounts.getWebsite(newWebsite);
 
-        if(!isSafeToContinue(newWebsite, null)) {
+        if(!isSafeToContinue(newWebsite, null, true)) {
             Logger.error("COUNT: ERROR");
             return;
         }
@@ -204,24 +197,31 @@ class MakeItSafe {
         }
     }
 
-    private static Boolean isSafeToContinue(Website website, Login login) {
-        if (website != null && website.getUrl() != null) {
-            if(website.getUrl().isEmpty()) {
-                String message = String.format("Not safe: WEBSITE doesn't have the right format or is empty");
-                Logger.error(message);
+    private static Boolean isSafeToContinue(Website website, Login login, Boolean supportNoArguments) {
+        Boolean websiteValid = (website != null && website.isValid());
+        Boolean loginValid = (login != null && login.isValid());
+
+        if (supportNoArguments) {
+            return !(websiteValid && loginValid);
+        } else {
+            if (websiteValid) {
+                if(website.getUrl().isEmpty()) {
+                    String message = String.format("Not safe: WEBSITE doesn't have the right format or is empty");
+                    Logger.error(message);
+                }
+                return !website.getUrl().isEmpty();
             }
-            return !website.getUrl().isEmpty();
+
+            if (loginValid) {
+                if(login.getUsername().isEmpty() || login.getPassword().isEmpty()) {
+                    String message = String.format("Not safe: LOGIN doesn't have the right format or is empty");
+                    Logger.error(message);
+                }
+
+                return !(login.getUsername().isEmpty() && login.getPassword().isEmpty());
+            }
         }
 
-        if (login != null && login.getUsername() != null && login.getPassword() != null) {
-            if(login.getUsername().isEmpty() || login.getPassword().isEmpty()) {
-                String message = String.format("Not safe: LOGIN doesn't have the right format or is empty");
-                Logger.error(message);
-            }
-
-            return !(login.getUsername().isEmpty() && login.getPassword().isEmpty());
-        }
-
-        return true;
+        return false;
     }
 }
