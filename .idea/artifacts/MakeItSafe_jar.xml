@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MakeItSafe:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MakeItSafe_jar</output-path>
+    <root id="archive" name="MakeItSafe.jar">
+      <element id="module-output" name="project" />
+    </root>
+  </artifact>
+</component>

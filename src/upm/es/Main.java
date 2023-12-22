@@ -11,7 +11,7 @@ class MakeItSafe {
 
     public static void main(String[] args){
         if (args.length != 1) {
-            System.out.println("File path needs to be added as a parameter when executing the program, for example: java MakeItSafe <file_path>");
+            System.out.println("File path needs to be added as a parameter when executing the program, for example: java -jar MakeItSafe.jar <file_path>");
             System.exit(1);
         } else {
             System.out.println(String.format("Using filepath: '%s'", args[0]));
