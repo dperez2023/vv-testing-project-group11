@@ -89,6 +89,7 @@ class MakeItSafe {
         Website foundWebsite = accounts.getWebsite(newWebsite);
 
         if(!isSafeToContinue(newWebsite, newLogin)) {
+            Logger.error("DISPLAY: ERROR");
             return;
         }
 
@@ -115,6 +116,7 @@ class MakeItSafe {
         Website foundWebsite = accounts.getWebsite(newWebsite);
 
         if(!isSafeToContinue(newWebsite, newLogin)) {
+            Logger.error("DELETE: ERROR");
             return;
         }
 
@@ -149,6 +151,7 @@ class MakeItSafe {
         Website foundWebsite = accounts.getWebsite(newWebsite);
 
         if(!isSafeToContinue(newWebsite, null)) {
+            Logger.error("ADD: ERROR");
             return;
         }
 
@@ -199,6 +202,7 @@ class MakeItSafe {
         Website foundWebsite = accounts.getWebsite(newWebsite);
 
         if(!isSafeToContinue(newWebsite, null)) {
+            Logger.error("COUNT: ERROR");
             return;
         }
 
@@ -213,18 +217,20 @@ class MakeItSafe {
 
     private static Boolean isSafeToContinue(Website website, Login login) {
         if (website != null && website.getUrl() != null) {
-            String message = String.format("Not safe: Website %s doesn't have the right format or is empty", website);
-            Logger.error(message);
-            return (website.getUrl() != "");
+            if(website.getUrl().isEmpty()) {
+                String message = String.format("Not safe: WEBSITE doesn't have the right format or is empty");
+                Logger.error(message);
+            }
+            return !website.getUrl().isEmpty();
         }
 
         if (login != null && login.getUsername() != null && login.getPassword() != null) {
-            if(login.getUsername() == "" && login.getPassword() == "") {
-                String message = String.format("Not safe: Login %s doesn't have the right format or is empty", login);
+            if(login.getUsername().isEmpty() || login.getPassword().isEmpty()) {
+                String message = String.format("Not safe: LOGIN doesn't have the right format or is empty");
                 Logger.error(message);
             }
 
-            return (login.getUsername() != "" && login.getPassword() != "");
+            return !(login.getUsername().isEmpty() && login.getPassword().isEmpty());
         }
 
         return true;
