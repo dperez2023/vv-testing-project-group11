@@ -80,9 +80,6 @@ public class Website {
             this.logins.add(login);
             String message = String.format("Add: Username %s has been added.", login.getUsername());
             Logger.success(message);
-        } else {
-            String message = String.format("Add: Username %s already exists. Cant be re-added.", login.getUsername());
-            Logger.error(message);
         }
     }
 
@@ -121,13 +118,8 @@ public class Website {
     }
 
     public void displayUsernames() {
-        if(this.logins.size() != 0) {
-            for (Login login : logins) {
-                displayUsername(login);
-            }
-        } else {
-            String message = String.format("Display: Website %s doesn't have usernames to show", url);
-            Logger.error(message);
+        for (Login login : logins) {
+            displayUsername(login);
         }
     }
 
@@ -143,9 +135,6 @@ public class Website {
                 message = String.format("Display: Error displaying login for %s website", url);
                 Logger.error(message);
             }
-        } else {
-            String message = String.format("Display: Website %s doesn't have usernames to show", url);
-            Logger.error(message);
         }
     }
 }

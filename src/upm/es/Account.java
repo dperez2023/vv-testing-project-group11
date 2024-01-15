@@ -28,27 +28,17 @@ public class Account {
     }
 
     public Boolean addWebsite(Website website) {
-        if(getWebsite(website) == null) {
-            this.websites.add(website);
-            String message = String.format("Add: Website %s has been added.", website.getUrl());
-            Logger.success(message);
-            return true;
-        } else {
-            return false;
-        }
+        this.websites.add(website);
+        String message = String.format("Add: Website %s has been added.", website.getUrl());
+        Logger.success(message);
+        return true;
     }
 
     public Boolean removeWebsite(Website website) {
-        if(getWebsite(website) != null) {
-            this.websites.remove(getWebsite(website));
-            String message = String.format("Remove: Website %s has been removed", website.getUrl());
-            Logger.success(message);
-            return true;
-        } else {
-            String message = String.format("Remove: Website %s doesnt exist.", website.getUrl());
-            Logger.error(message);
-            return false;
-        }
+        this.websites.remove(getWebsite(website));
+        String message = String.format("Remove: Website %s has been removed", website.getUrl());
+        Logger.success(message);
+        return true;
     }
 
     public void removeWebsites() {

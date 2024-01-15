@@ -21,7 +21,6 @@ public class PasswordStrength {
         if (value != null) {
             count += (value.matches(lessThan8CharsRegex) ? 1 : 0);
             count += (value.matches(hasLettersRegex) ? 1 : 0);
-            count += (value.matches(hasNumbersRegex) ? 1 : 0);
             count += (value.matches(hasSpecialCharsRegex) ? 1 : 0);
         }
 
