@@ -36,7 +36,7 @@ public enum CommandType {
     }
 
     public static CommandType fromString(String value) {
-        switch (value.toLowerCase()) {
+        switch (value) {
             case "help":
                 return help;
             case "display":

@@ -1,17 +1,1 @@
-help
-add www.google.com username1 password1
-add www.google.com username11 password11
-add www.google.com username22 password22
-add www.google2.com username22 password22
-add www.google2.com username22 password22
-add www.google2.com username11 password11
-add www.google2.com username33 password11
-update www.google.com username2 password123
-update www.google.com username22 123
-update www.google.com username22 complex123@123a
-display www.google2.com username2
-display www.google.com
-count
-delete www.google.com username11
-count www.google.com
-display
+add www.google.com mail@mail.com Password123 ExtraArgument

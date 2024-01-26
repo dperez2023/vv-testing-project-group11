@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 class MakeItSafe {
     private static Account accounts = new Account();
@@ -108,7 +109,7 @@ class MakeItSafe {
 
         Website foundWebsite = accounts.getWebsite(newWebsite);
 
-        if(!isSafeToContinue(newWebsite, newLogin, false)) {
+        if(!isSafeToContinue(newWebsite, newLogin, true)) {
             Logger.error("DELETE: ERROR");
             return;
         }
@@ -178,8 +179,13 @@ class MakeItSafe {
 
         if (foundWebsite == null) {
             accounts.addWebsite(newWebsite);
-            accounts.getWebsite(newWebsite)
-                    .addLogin(newLogin);
+            Website addedWebsite = accounts.getWebsite(newWebsite);
+            if(addedWebsite.passwordValidSecurityStrength(newLogin)) {
+                addedWebsite.addLogin(newLogin);
+            } else {
+                String message = String.format("Adding error: Username %s can't be added, is not secure enough.", newLogin.getUsername());
+                System.out.println(message);
+            }
         } else {
             if(foundWebsite.getLogin(newLogin) == null) {
                 if(foundWebsite.passwordExists(newLogin)) {
@@ -226,23 +232,33 @@ class MakeItSafe {
             return !(websiteValid && loginValid);
         } else {
             if (websiteValid) {
-                if(website.getUrl().isEmpty()) {
-                    String message = String.format("Not safe: WEBSITE doesn't have the right format or is empty");
+                if(website.getUrl().isEmpty() || !isWebsiteValid(website.getUrl())) {
+                    String message = "Not safe: WEBSITE doesn't have the right format or is empty";
                     Logger.error(message);
                 }
-                return !website.getUrl().isEmpty();
+                return !(website.getUrl().isEmpty() && !isWebsiteValid(website.getUrl()));
             }
 
             if (loginValid) {
-                if(login.getUsername().isEmpty() || login.getPassword().isEmpty()) {
-                    String message = String.format("Not safe: LOGIN doesn't have the right format or is empty");
+                if(login.getUsername().isEmpty() || login.getPassword().isEmpty() || !isEmailValid(login.getUsername())) {
+                    String message = "Not safe: LOGIN doesn't have the right format or is empty";
                     Logger.error(message);
                 }
 
-                return !(login.getUsername().isEmpty() && login.getPassword().isEmpty());
+                return !(login.getUsername().isEmpty() && login.getPassword().isEmpty() && !isEmailValid(login.getUsername()));
             }
         }
 
         return false;
+    }
+
+    public static boolean isEmailValid(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return Pattern.matches(emailRegex, email);
+    }
+
+    public static boolean isWebsiteValid(String website) {
+        String websiteRegex = "^(https?|ftp)://(www\\.)?[a-zA-Z0-9-]+(\\.[a-zA-Z]{2,})+(\\S*)?$";
+        return Pattern.matches(websiteRegex, website);
     }
 }

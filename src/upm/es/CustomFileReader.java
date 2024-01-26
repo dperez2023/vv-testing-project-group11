@@ -30,7 +30,17 @@ public class CustomFileReader {
                 }
 
                 Command newCommand = new Command(CommandType.fromString(command), arguments);
-                commandsList.add(newCommand);
+
+                if(parts.length <= 3) {
+                    commandsList.add(newCommand);
+                } else {
+                    System.out.println("Command Error: Arguments mismatch (There are more arguments than supported by the program");
+                    for(int i = 0; i < parts.length; i++) {
+                        if(i > 3) {
+                            System.out.println(String.format("Argument: %s",parts[i]));
+                        }
+                    }
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
